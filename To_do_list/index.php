@@ -1,6 +1,8 @@
 <?php
 
     $connection = new PDO("mysql:host=localhost;dbname=To_do_list","root","");
+    $allItems = $connection->query("SELECT * FROM tbItem;");
+
 
     if(isset($_POST["salvar"])){
         $insertion = $connection->prepare("INSERT INTO tbItem(itemName) VALUES(:itemName)");
@@ -27,30 +29,17 @@
             <input type="submit" value="Salvar tarefa" name="salvar">
         </form> 
         <div class="list">
+        <?php
+                while($row = $allItems->fetch(PDO::FETCH_ASSOC)):
+            ?>
             <div class="item">
-                Fazer café
+                <?php echo $row['itemName'];?>
                 <div class="options">
-                    <i class="fas fa-remove"></i>
                     <i class="fas fa-pen"></i>
                     <i class="fas fa-trash"></i>
                 </div>
             </div>
-            <div class="item">
-                Estudar para prova
-                <div class="options">
-                    <i class="fas fa-remove"></i>
-                    <i class="fas fa-pen"></i>
-                    <i class="fas fa-trash"></i>
-                </div>
-            </div>
-            <div class="item">
-                Testar o App
-                <div class="options">
-                    <i class="fas fa-remove"></i>
-                    <i class="fas fa-pen"></i>
-                    <i class="fas fa-trash"></i>
-                </div>
-            </div>
+            <?php endwhile?>
         </div>
     </div>
     <script src="script.js"></script>
