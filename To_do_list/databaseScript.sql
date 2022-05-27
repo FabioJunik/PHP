@@ -1,0 +1,8 @@
+CREATE DATABASE To_do_list;
+
+USE To_do_list;
+
+CREATE TABLE tbItem(
+    codItem INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL
+);
