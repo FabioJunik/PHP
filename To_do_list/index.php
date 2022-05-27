@@ -3,11 +3,15 @@
     $connection = new PDO("mysql:host=localhost;dbname=To_do_list","root","");
     $allItems = $connection->query("SELECT * FROM tbItem;");
 
-
     if(isset($_POST["salvar"])){
         $insertion = $connection->prepare("INSERT INTO tbItem(itemName) VALUES(:itemName)");
         $insertion->bindParam(':itemName',$_POST['item'],PDO::PARAM_STR);
         $insertion->execute();
+    }
+
+    if(isset($_GET['del']))
+    {
+       $connection->query("DELETE FROM tbItem WHERE codItem = ".$_GET['del']);   
     }
 
 ?>
@@ -29,14 +33,14 @@
             <input type="submit" value="Salvar tarefa" name="salvar">
         </form> 
         <div class="list">
-        <?php
+            <?php
                 while($row = $allItems->fetch(PDO::FETCH_ASSOC)):
             ?>
             <div class="item">
-                <?php echo $row['itemName'];?>
+                <?php echo $row['itemName']; $codItem= $row['codItem']  ?>
                 <div class="options">
-                    <i class="fas fa-pen"></i>
-                    <i class="fas fa-trash"></i>
+                    <a href="index.php?edit"><i class="fas fa-pen"></i></a>
+                    <a href="index.php?del=<?=$codItem?>"><i class="fas fa-trash"></i></a>
                 </div>
             </div>
             <?php endwhile?>
